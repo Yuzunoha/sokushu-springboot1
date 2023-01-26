@@ -32,4 +32,10 @@ public class HelloController {
     model.addAttribute("books", rep.findAll());
     return "list";
   }
+
+  @GetMapping("/view/fragment")
+  public String fragment(Model model) {
+    model.addAttribute("msg", "こんにちは、世界！");
+    return "view/fragment";
+  }
 }
