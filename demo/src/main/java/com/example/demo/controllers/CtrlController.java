@@ -42,9 +42,7 @@ public class CtrlController {
 
   @PostMapping("/form")
   public String formResult(@ModelAttribute MemberForm memberForm, Model model) {
-    var valueMain = "ctrl/form_result::main";
-    // モデルに詰め替え
-    model.addAttribute("main", valueMain);
+    model.addAttribute("main", "ctrl/form_result::main");
     return "common/layout";
   }
 }
