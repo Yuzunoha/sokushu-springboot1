@@ -76,8 +76,8 @@ public class CtrlController {
       bof.write(file.getBytes());
       model.addAttribute("success", getMsg.apply("成功"));
     } catch (IOException e) {
+      model.addAttribute("success", getMsg.apply("失敗"));
       e.printStackTrace();
-      model.addAttribute("error", getMsg.apply("失敗"));
     }
 
     model.addAttribute("main", "ctrl/upload::main");
