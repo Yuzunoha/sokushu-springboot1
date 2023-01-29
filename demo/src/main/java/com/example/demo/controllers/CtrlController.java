@@ -45,16 +45,20 @@ public class CtrlController {
     return "ctrl/form";
   }
 
+  private String getStrCommonLayout() {
+    return "common/layout";
+  }
+
   @PostMapping("/form")
   public String formResult(@ModelAttribute MemberForm memberForm, Model model) {
     model.addAttribute("main", "ctrl/form_result::main");
-    return "common/layout";
+    return getStrCommonLayout();
   }
 
   @GetMapping("/upload")
   public String upload(Model model) {
     model.addAttribute("main", "ctrl/upload::main");
-    return "common/layout";
+    return getStrCommonLayout();
   }
 
   @PostMapping("/upload")
@@ -63,15 +67,20 @@ public class CtrlController {
     @RequestParam("upfile") MultipartFile file
   ) {
     String name = file.getOriginalFilename();
+    UnaryOperator<String> getMsg = (String msg) ->
+      name + "のアップロードに" + msg + "しました";
+
     try (
       var bof = new BufferedOutputStream(new FileOutputStream("./" + name))
     ) {
       bof.write(file.getBytes());
-      model.addAttribute("success", name + "のアップロードに成功しました");
+      model.addAttribute("success", getMsg.apply("成功"));
     } catch (IOException e) {
       e.printStackTrace();
+      model.addAttribute("error", getMsg.apply("失敗"));
     }
+
     model.addAttribute("main", "ctrl/upload::main");
-    return "common/layout";
+    return getStrCommonLayout();
   }
 }
