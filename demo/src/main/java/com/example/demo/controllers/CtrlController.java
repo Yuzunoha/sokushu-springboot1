@@ -5,6 +5,9 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,19 +70,22 @@ public class CtrlController {
     @RequestParam("upfile") MultipartFile file
   ) {
     String name = file.getOriginalFilename();
-    UnaryOperator<String> getMsg = (String msg) ->
-      name + "のアップロードに" + msg + "しました";
+    Consumer<String> setMsg = (String result) -> {
+      var msg = name + "のアップロードに" + result + "しました";
+      model.addAttribute("success", msg);
+    };
+    String result = "成功";
 
     try (
       var bof = new BufferedOutputStream(new FileOutputStream("./" + name))
     ) {
       bof.write(file.getBytes());
-      model.addAttribute("success", getMsg.apply("成功"));
     } catch (IOException e) {
-      model.addAttribute("success", getMsg.apply("失敗"));
       e.printStackTrace();
+      result = "失敗";
     }
 
+    setMsg.accept(result);
     model.addAttribute("main", "ctrl/upload::main");
     return getStrCommonLayout();
   }
