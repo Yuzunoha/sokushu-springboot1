@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,5 +21,11 @@ public class CtrlController {
   @ResponseBody
   public String param(@PathVariable String id) {
     return "id: " + id;
+  }
+
+  @GetMapping({ "/paramAny/{id}", "/paramAny" })
+  @ResponseBody
+  public String paramAny(@PathVariable(required = false) Optional<String> id) {
+    return "id: " + id.orElse("パスパラメタ id は指定されませんでした。");
   }
 }
