@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +22,8 @@ public class CtrlController {
   @GetMapping("/param/{id}")
   @ResponseBody
   public String param(@PathVariable String id) {
-    return "id: " + id;
+    UnaryOperator<String> f = (String s) -> "id(ラムダ): " + s;
+    return f.apply(id);
   }
 
   @GetMapping({ "/paramAny/{id}", "/paramAny" })
