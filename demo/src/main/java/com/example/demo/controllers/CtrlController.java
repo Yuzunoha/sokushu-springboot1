@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.models.Book;
 import com.example.demo.models.MemberForm;
 import com.example.demo.views.PdfBasicView;
+import com.example.demo.views.PdfBasicViewDownload;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -203,5 +204,11 @@ public class CtrlController {
   public View useview2(Model model) {
     model.addAttribute("msg", MSG_FOR_VIEW);
     return new PdfBasicView();
+  }
+
+  @GetMapping("/pdfdownload.pdf")
+  public View pdfdownload(Model model) {
+    model.addAttribute("msg", MSG_FOR_VIEW);
+    return new PdfBasicViewDownload();
   }
 }
