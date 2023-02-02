@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Book;
 import com.example.demo.models.MemberForm;
+import com.example.demo.views.PdfBasicView;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 @RequestMapping("/ctrl")
@@ -183,5 +185,14 @@ public class CtrlController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  @GetMapping("/useview.pdf")
+  public ModelAndView useview() {
+    ModelAndView mv = new ModelAndView();
+    var msg = "こんにちは、Viewクラス。モデルアンドビューより。";
+    mv.addObject("msg", msg);
+    mv.setView(new PdfBasicView());
+    return mv;
   }
 }
