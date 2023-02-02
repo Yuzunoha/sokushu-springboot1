@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -140,5 +141,17 @@ public class CtrlController {
   public String forward2(HttpServletRequest request) {
     var name = request.getAttribute("name");
     return "こんにちは。" + name + "さん！";
+  }
+
+  @GetMapping("/response")
+  public void response(HttpServletResponse response) {
+    response.setStatus(HttpServletResponse.SC_CREATED);
+    response.setContentType("application/xml; charset=UTF-8");
+    response.setCharacterEncoding("UTF-8");
+    try {
+      response.getWriter().println("<result>成功</result>");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
