@@ -6,10 +6,9 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @RequestMapping("/ctrl")
 @Controller
@@ -130,5 +127,18 @@ public class CtrlController {
       .build()
       .toUriString();
     return "redirect:" + uri;
+  }
+
+  @GetMapping("/forward1")
+  public String forward1(HttpServletRequest request) {
+    request.setAttribute("name", "山田");
+    return "forward:/ctrl/forward2";
+  }
+
+  @GetMapping("/forward2")
+  @ResponseBody
+  public String forward2(HttpServletRequest request) {
+    var name = request.getAttribute("name");
+    return "こんにちは。" + name + "さん！";
   }
 }
