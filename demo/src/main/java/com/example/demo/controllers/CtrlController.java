@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 @RequestMapping("/ctrl")
@@ -187,12 +188,20 @@ public class CtrlController {
     }
   }
 
+  protected static final String MSG_FOR_VIEW =
+    "こんにちは、Viewクラス。モデルアンドビューより。";
+
   @GetMapping("/useview.pdf")
   public ModelAndView useview() {
     ModelAndView mv = new ModelAndView();
-    var msg = "こんにちは、Viewクラス。モデルアンドビューより。";
-    mv.addObject("msg", msg);
+    mv.addObject("msg", MSG_FOR_VIEW);
     mv.setView(new PdfBasicView());
     return mv;
+  }
+
+  @GetMapping("/useview2.pdf")
+  public View useview2(Model model) {
+    model.addAttribute("msg", MSG_FOR_VIEW);
+    return new PdfBasicView();
   }
 }
