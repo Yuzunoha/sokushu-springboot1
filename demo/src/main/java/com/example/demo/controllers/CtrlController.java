@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RequestMapping("/ctrl")
 @Controller
@@ -117,5 +120,15 @@ public class CtrlController {
     s += book.getPublished() + d;
     s += book.getAttach() + d;
     return s;
+  }
+
+  @GetMapping("/redirect")
+  public String redirect() {
+    // リダイレクトのビルドを試す
+    var uri = MvcUriComponentsBuilder
+      .fromMethodName(CtrlController.class, "param", "108")
+      .build()
+      .toUriString();
+    return "redirect:" + uri;
   }
 }
