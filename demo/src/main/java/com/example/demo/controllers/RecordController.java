@@ -24,4 +24,11 @@ public class RecordController {
     model.addAttribute("main", "record/find::main");
     return COMMON_LAYOUT;
   }
+
+  @GetMapping("/findby")
+  public String findBy(Model model) {
+    model.addAttribute("books", rep.findByPublisher("翔泳社"));
+    model.addAttribute("main", "record/list::main");
+    return COMMON_LAYOUT;
+  }
 }
