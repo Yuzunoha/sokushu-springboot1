@@ -38,4 +38,12 @@ public class HelloController {
     model.addAttribute("msg", "こんにちは、世界！");
     return "view/fragment";
   }
+
+  @GetMapping("/sub")
+  @ResponseBody
+  public String sub() {
+    var sub = new Sub();
+    sub.run();
+    return "sub() 完了";
+  }
 }
